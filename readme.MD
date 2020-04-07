@@ -24,3 +24,5 @@ For Safe Home Access application create _UML state machine_ diagram.
 
 For Safe Home Access application create _UML use case_ diagram. 
 
+![Exercise 3 image](docs/UseCaseDiagram1Exercise3.jpg)
+
