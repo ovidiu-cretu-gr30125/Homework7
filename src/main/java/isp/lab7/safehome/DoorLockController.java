@@ -57,6 +57,13 @@ public class DoorLockController implements ControllerInterface {
              }
             return door.getStatus();
         }
+
+    /**
+     * this method should verify the pin
+     * @param pin the pin that is introduce by the user
+     * @param validAccess the map with the pins and tenants names
+     * @return true if the pin introduced by user matches with the pin from the map or false if not
+     */
         public boolean checkPin(String pin,Map<Tenant,AccessKey> validAccess) {
             for (Map.Entry<Tenant, AccessKey> map : validAccess.entrySet()) {
                 if (pin.equals(map.getValue().getPin()))
@@ -107,7 +114,11 @@ public class DoorLockController implements ControllerInterface {
                 }
         }
 
-        public List<AccessLog> getAccessLogs(){
+    /**
+     * getter for the access log list
+     * @return access log list
+     */
+    public List<AccessLog> getAccessLogs(){
                return accessLogList;
         }
 }
