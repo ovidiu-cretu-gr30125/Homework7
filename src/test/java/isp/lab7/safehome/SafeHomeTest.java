@@ -3,15 +3,23 @@ package isp.lab7.safehome;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class SafeHomeTest {
 
     ControllerInterface ctrl;
 
+
     @Before
     public void instantiateDoorController() {
         //INITIALISE CONTROLLER OBJECT HERE
+        Door door = new Door(DoorStatus.CLOSE);
+        ctrl = new DoorLockController(door);
     }
 
     // >>>> DO NOT CHANGE CODE AFTER THIS LINE ! <<<<
