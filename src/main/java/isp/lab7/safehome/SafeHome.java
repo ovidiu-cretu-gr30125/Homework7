@@ -9,9 +9,10 @@ public class SafeHome {
         dr1.addTenant("123","User1");
         dr1.addTenant("124","b");
         dr1.addTenant("125","a");
-        dr1.addTenant("123","User1");
+        //dr1.addTenant("123","User1");
         dr1.removeTenant("User1");
-        dr1.enterPin("123");
+        dr1.enterPin("125");
+        dr1.enterPin("125");
         System.out.println(dr1.getAccessLogs().toString());
 
     }

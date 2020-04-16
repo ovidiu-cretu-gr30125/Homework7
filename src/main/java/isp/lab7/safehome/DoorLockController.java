@@ -30,14 +30,14 @@ public class DoorLockController implements ControllerInterface {
                  if (checkPin(pin, validAccess)) {
                      if (door.getStatus().equals(DoorStatus.OPEN)) {
                          door.lockDoor();
-                         System.out.println(door.getStatus().toString());
                      } else {
                          door.unlockDoor();
-                         System.out.println(door.getStatus().toString());
                      }
+                     accessLogList.add(new AccessLog(getNameByPin(pin),LocalDateTime.now(),"EnterPin",door.getStatus(),"No error"));
                  } else {
                      door.lockDoor();
                      attemptsNumber++;
+                     accessLogList.add(new AccessLog(getNameByPin(pin),LocalDateTime.now(),"EnterPin",door.getStatus(),"Invalid pin!"));
                      throw new InvalidPinException(pin, "Invalid pin!");
                  }
              }
@@ -45,12 +45,14 @@ public class DoorLockController implements ControllerInterface {
                  if (attemptsNumber == 2) {
                      if (!pin.equals(ControllerInterface.MASTER_KEY)) {
                          door.unlockDoor();
+                         accessLogList.add(new AccessLog(getNameByPin(pin),LocalDateTime.now(),"EnterPin",door.getStatus(),"Too many attempts! Enter master key to unlock the door"));
                          throw new TooManyAttemptsException(pin, "Too many attempts! Enter master key to unlock the door");
                      }
                      else{
                          if(pin.equals(ControllerInterface.MASTER_KEY)){
                              door.unlockDoor();
                              attemptsNumber=0;
+                             accessLogList.add(new AccessLog(getNameByPin(pin),LocalDateTime.now(),"EnterPin",door.getStatus(),"Master key used"));
                          }
                      }
                  }
@@ -58,6 +60,18 @@ public class DoorLockController implements ControllerInterface {
             return door.getStatus();
         }
 
+    /**
+     * this method should return the name by pin from hash table
+     * @param pin the pin for the name
+     * @return the name from the hash table that requires to the given pin
+     */
+    public String getNameByPin(String pin){
+            for (Map.Entry<Tenant, AccessKey> map : validAccess.entrySet()){
+                if(pin.equals(map.getValue().getPin()))
+                    return map.getKey().getName();
+            }
+            return null;
+        }
     /**
      * this method should verify the pin
      * @param pin the pin that is introduce by the user
